@@ -11,6 +11,7 @@ from agno.os import AgentOS, CompanyConfig, OSManager
 
 # from agents.engineers import create_claude_engineer
 # from agents.engineers import create_codex_engineer
+from agents.marketing_strategist import marketing_strategist
 from app.company import products
 from app.interfaces import attach_interfaces, mcp_auth
 from app.registry import registry, shared_knowledge, shared_learning
@@ -41,6 +42,7 @@ agent_os = AgentOS(
     queue=QueueConfig(durable=True, db=db),
     knowledge=[shared_knowledge],
     agents=[
+        marketing_strategist,
         # create_claude_engineer(),
         # create_codex_engineer(),
     ],

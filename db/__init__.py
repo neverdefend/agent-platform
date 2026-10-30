@@ -1,9 +1,11 @@
 """Shared PostgreSQL storage and knowledge creation."""
 
 from functools import cache
+from os import getenv
 
 from agno.db.postgres import PostgresDb
 from agno.knowledge import Knowledge
+from agno.knowledge.embedder.base import Embedder
 from agno.knowledge.embedder.openai import OpenAIEmbedder
 from agno.vectordb.pgvector import PgVector, SearchType
 
@@ -20,6 +22,14 @@ def get_postgres_db() -> PostgresDb:
     return PostgresDb(id=DB_ID, db_url=db_url)
 
 
+def _embedder() -> Embedder:
+    if getenv("GOOGLE_API_KEY"):
+        from agno.knowledge.embedder.google import GeminiEmbedder
+
+        return GeminiEmbedder(id="gemini-embedding-001", dimensions=1536)
+    return OpenAIEmbedder(id="text-embedding-3-small")
+
+
 def create_knowledge(name: str, table_name: str) -> Knowledge:
     """Create hybrid-search knowledge with its own content adapter."""
     contents_table = f"{table_name}_contents"
@@ -29,7 +39,7 @@ def create_knowledge(name: str, table_name: str) -> Knowledge:
             db_url=db_url,
             table_name=table_name,
             search_type=SearchType.hybrid,
-            embedder=OpenAIEmbedder(id="text-embedding-3-small"),
+            embedder=_embedder(),
         ),
         contents_db=PostgresDb(
             id=f"{DB_ID}-{contents_table}",

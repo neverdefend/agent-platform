@@ -1,4 +1,11 @@
 manifest:
+  marketing-strategist:
+    description: "Full-funnel growth marketer: researches the market, then drafts positioning, SEO, content, email, ads and launch plans."
+    quick_prompts:
+      - "Interview me about my product, then save a brand brief you can reuse."
+      - "Research my top three competitors and tell me where my positioning can win."
+      - "Build a 30-day content and SEO plan for my product with keyword clusters and drafts of the first two posts."
+      - "Write a five-email onboarding sequence with two subject-line variants each."
   os-manager-internal:
     description: "Build agents, check platform health, and coordinate work across this AgentOS."
     quick_prompts:
