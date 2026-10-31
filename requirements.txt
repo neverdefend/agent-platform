@@ -145,6 +145,7 @@ httpx==0.28.1
     #   agno
     #   agnoctl
     #   google-genai
+    #   ollama
     #   parallel-web
 httpx2==2.16.0
     # via
@@ -207,6 +208,8 @@ multidict==7.2.1
     # via
     #   aiohttp
     #   yarl
+ollama==0.6.3
+    # via agno
 openai==3.41.0
     # via agno
 openai-codex==0.163.0
@@ -292,6 +295,7 @@ pydantic==2.14.1
     #   google-genai
     #   mcp
     #   mcp-types
+    #   ollama
     #   openai
     #   openai-codex
     #   openapi-pydantic

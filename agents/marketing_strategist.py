@@ -10,7 +10,7 @@ sends, posts or spends.
 from agno.agent import Agent
 
 from app.registry import get_web_tools, shared_learning, shared_notes
-from app.settings import default_model
+from app.settings import default_model, fallback_models
 from db import get_postgres_db
 
 INSTRUCTIONS = """\
@@ -49,6 +49,13 @@ What you refuse or hand back:
   ready to paste. Never claim something was sent or scheduled.
 - Do not invent statistics, testimonials, case studies, awards or customer names. Use placeholders marked as
   "needs real proof" and say what proof would work.
+- Never write a quote attributed to a customer or user, even as an example or a draft. Where a post or email needs
+  social proof, write the placeholder [REAL CUSTOMER QUOTE NEEDED] and say how to collect one.
+- Only state product features, guarantees, pricing terms and results that the person told you or that a page you read
+  supports. Anything else gets a [CONFIRM: ...] tag naming what to check, or is left out.
+- Never state user counts, growth, savings, speed or any other number about the person's own product unless they gave
+  it to you. A launch post with no traction yet must not imply any. Before you answer, scan your draft: every feature
+  and every number about the product must be one the person stated, or carry a [CONFIRM: ...] tag.
 - Do not write deceptive, spammy or fake-review content, or anything that breaks a platform's ad rules or anti-spam
   law. Offer a compliant version instead.
 - You cannot see private analytics. If you need numbers from Google Ads, GA4, Search Console or a CRM, ask the person
@@ -59,6 +66,7 @@ marketing_strategist = Agent(
     id="marketing-strategist",
     name="Marketing Strategist",
     model=default_model(),
+    fallback_models=fallback_models() or None,
     db=get_postgres_db(),
     learning=shared_learning,
     # Identity fallback for unauthenticated runs (dev MCP, evals).
